@@ -118,13 +118,23 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif '=' in args:
+            args = args.split(' ')
+            cls = args[0]
+        elif cls not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
+        new_instance = HBNBCommand.classes[cls]()
         print(new_instance.id)
-        storage.save()
+
+        # impliment the pattern <key_name>=<value_name>
+        for item in args[1:]:
+            try:
+                pars = item.split('=')
+                setattr(new_instance, pars[0], pars[1].replace('_', ' '))
+            except Exception:
+                pass
+        new_instance.save()
 
     def help_create(self):
         """ Help information for the create method """
