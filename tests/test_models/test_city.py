@@ -2,6 +2,7 @@
 """ """
 from tests.test_models.test_base_model import test_basemodel
 from models.city import City
+from models.state import State
 
 
 class test_City(test_basemodel):
@@ -13,12 +14,17 @@ class test_City(test_basemodel):
         self.name = "City"
         self.value = City
 
+    def setUp(self):
+        """Create common items for each test"""
+        self.new = self.value()
+
     def test_state_id(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.state_id), str)
+        """Test state_id"""
+        state = State()
+        self.new.state_id = state.id
+        self.assertEqual(self.new.state_id, state.id)
 
     def test_name(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.name), str)
+        """Test City name"""
+        self.new.name = "Lisbon"
+        self.assertEqual(self.new.name, "Lisbon")

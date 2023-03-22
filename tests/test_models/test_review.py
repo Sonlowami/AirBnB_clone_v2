@@ -1,14 +1,16 @@
 #!/usr/bin/python3
-""" """
+"""Test model Review"""
 from tests.test_models.test_base_model import test_basemodel
 from models.review import Review
+from models.place import Place
+from models.user import User
 
 
 class test_review(test_basemodel):
-    """ """
+    """Define testcases for Review"""
 
     def __init__(self, *args, **kwargs):
-        """ """
+        """Define instance attributes"""
         super().__init__(*args, **kwargs)
         self.name = "Review"
         self.value = Review
@@ -16,14 +18,19 @@ class test_review(test_basemodel):
     def test_place_id(self):
         """ """
         new = self.value()
-        self.assertEqual(type(new.place_id), str)
+        place = Place()
+        new.place_id = place.id
+        self.assertEqual(new.place_id, place.id)
 
     def test_user_id(self):
         """ """
         new = self.value()
-        self.assertEqual(type(new.user_id), str)
+        user = User()
+        new.user_id = user.id
+        self.assertEqual(new.user_id, user.id)
 
     def test_text(self):
         """ """
         new = self.value()
-        self.assertEqual(type(new.text), str)
+        new.text = "This is elegant!"
+        self.assertEqual(new.text, "This is elegant!")

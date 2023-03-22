@@ -6,16 +6,16 @@ from sqlalchemy import Column, String, Integer, Float, Table, ForeignKey
 from sqlalchemy.orm import relationship
 from models import storage, storage_mode
 
-place_amenity = Table(Column('place_id', String(60), ForeignKey('Place'), primary_key=True, nullable=False),
-        Column('amenity_id', String(60), ForeignKey('Amenity'), primary_key=True, nullable=False))
+place_amenity = Table('place_amenity', Base.metadata, Column('place_id', String(60), ForeignKey('Place'), primary_key=True, nullable=False),
+        Column('amenity_id', String(60), ForeignKey('Amenity'), primary_key=True, nullable=False), extend_existing=True)
 
 
-class Place(BaseModel):
+class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = 'places'
-    city_id = Column(String(128), ForeignKey(City), nullable=False)
-    user_id = Column(String(128), ForeignKey(User), nullable=False)
-    name = Column(String(128) nullable=False)
+    city_id = Column(String(128), ForeignKey("cities.id"), nullable=False)
+    user_id = Column(String(128), ForeignKey("users.id"), nullable=False)
+    name = Column(String(128), nullable=False)
     description = Column(String(128))
     number_rooms = Column(Integer(), default=0, nullable=False)
     number_bathrooms = Column(Integer(), default=0, nullable=False)
@@ -25,9 +25,10 @@ class Place(BaseModel):
     longitude = Column(Float())
     amenity_ids = []
 
-    if storage_mode().is_db():
+    if storage_mode():
         reviews = relationship('Review', backref='place', cascade="all, delete")
-        amenities = relationship('Amenity', secondary='place_amenity', view_only=False)
+        amenities = relationship('Amenity', secondary='place_amenity', view_only=False, backref="place_amenities")
+        cities = relationship('City', backref='places', passive_deletes=True)
     else:
         def reviews(self):
             """Return all reviews for this place object"""
@@ -38,7 +39,7 @@ class Place(BaseModel):
         def amenities(self):
             """Return the list of amenities linked to this place"""
             am_list = []
-            [am_list.append(item) for item in amenity_ids if item = self.id]
+            [am_list.append(item) for item in amenity_ids if item == self.id]
             return am_list
 
         def amenities(self, obj):

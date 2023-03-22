@@ -34,7 +34,7 @@ class test_fileStorage(unittest.TestCase):
         new = BaseModel()
         for obj in storage.all().values():
             temp = obj
-        self.assertTrue(temp is obj)
+            self.assertTrue(temp is new)
 
     def test_all(self):
         """ __objects is properly returned """
@@ -68,7 +68,7 @@ class test_fileStorage(unittest.TestCase):
         storage.reload()
         for obj in storage.all().values():
             loaded = obj
-        self.assertEqual(new.to_dict()['id'], loaded.to_dict()['id'])
+            self.assertEqual(new.to_dict()['id'], loaded.to_dict()['id'])
 
     def test_reload_empty(self):
         """ Load from an empty file """
@@ -101,7 +101,7 @@ class test_fileStorage(unittest.TestCase):
         _id = new.to_dict()['id']
         for key in storage.all().keys():
             temp = key
-        self.assertEqual(temp, 'BaseModel' + '.' + _id)
+            self.assertEqual(temp, 'BaseModel' + '.' + _id)
 
     def test_storage_var_created(self):
         """ FileStorage object storage created """
@@ -112,6 +112,7 @@ class test_fileStorage(unittest.TestCase):
     def test_delete_with_none(self):
         """Check if Delete() does nothing"""
         new = BaseModel()
+        new.save()
         self.assertIn("BaseModel.{}".format(new.id), storage.all().keys())
         storage.delete()
         self.assertIn("BaseModel.{}".format(new.id), storage.all().keys())
@@ -119,6 +120,7 @@ class test_fileStorage(unittest.TestCase):
     def test_delete_with_an_obj(self):
         """ Test if delete actually deletes an objects"""
         new = BaseModel()
+        new.save()
         self.assertIn("BaseModel.{}".format(new.id), storage.all().keys())
         storage.delete(new)
         self.assertNotIn("Basemodel.{}".format(new.id), storage.all().keys())
@@ -128,6 +130,7 @@ class test_fileStorage(unittest.TestCase):
         the same class when passed class name"""
         new = BaseModel()
         state = State()
+        new.save(), state.save()
         self.assertIn("BaseModel.{}".format(new.id), storage.all(BaseModel))
         self.assertNotIn("State.{}".format(state.id), storage.all(BaseModel))
         self.assertIn("State.{}".format(state.id), storage.all(State))
