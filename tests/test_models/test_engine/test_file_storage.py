@@ -2,6 +2,7 @@
 """ Module for testing file storage"""
 import unittest
 from models.base_model import BaseModel
+from models.state import State
 from models import storage
 import os
 
@@ -107,3 +108,27 @@ class test_fileStorage(unittest.TestCase):
         from models.engine.file_storage import FileStorage
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+    def test_delete_with_none(self):
+        """Check if Delete() does nothing"""
+        new = BaseModel()
+        self.assertIn("BaseModel.{}".format(new.id), storage.all().keys())
+        storage.delete()
+        self.assertIn("BaseModel.{}".format(new.id), storage.all().keys())
+
+    def test_delete_with_an_obj(self):
+        """ Test if delete actually deletes an objects"""
+        new = BaseModel()
+        self.assertIn("BaseModel.{}".format(new.id), storage.all().keys())
+        storage.delete(new)
+        self.assertNotIn("Basemodel.{}".format(new.id), storage.all().keys())
+
+    def test_all_with_class(self):
+        """Test if storage.all can return objects of
+        the same class when passed class name"""
+        new = BaseModel()
+        state = State()
+        self.assertIn("BaseModel.{}".format(new.id), storage.all(BaseModel))
+        self.assertNotIn("State.{}".format(state.id), storage.all(BaseModel))
+        self.assertIn("State.{}".format(state.id), storage.all(State))
+        self.assertNotIn("BaseModel.{}".format(new.id), storage.all(State))
