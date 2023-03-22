@@ -6,6 +6,7 @@ import datetime
 from uuid import UUID
 import json
 import os
+from models import storage_mode
 
 
 class test_basemodel(unittest.TestCase):
@@ -47,6 +48,7 @@ class test_basemodel(unittest.TestCase):
         with self.assertRaises(TypeError):
             new = BaseModel(**copy)
 
+    @unittest.skipIf(storage_mode(), "test save")
     def test_save(self):
         """ Testing save """
         i = self.value()

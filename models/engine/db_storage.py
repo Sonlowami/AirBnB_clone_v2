@@ -5,14 +5,9 @@ the HBNB project models
 """
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from models.basemodel import Base
-from models.state import State
-from models.city import City
-from models.place import Place
-from models.user import User
-from models.review import Review
-from models.amenity import Amenity
+from models.base_model import Base
 import os
+
 
 class DBStorage():
     """
@@ -22,25 +17,16 @@ class DBStorage():
 
     __engine = __session = None
 
-    def user():
-        """return a user env"""
-        return os.getenv("HBNB_MYSQL_USER")
-
-    def pwd():
-        """return a password env"""
-        return os.getenv("HBNB_MYSQL_PWD")
-
-    def host():
-        """Return a host env"""
-        return os.getenv("HBNB_MYSQL_HOST")
-
-    def db():
-        """Return name of the database"""
-        return os.getenv("HBNB_MYSQL_DB")
-
     def __init__(self):
         """Constructor to create instance attributes"""
-        self.__engine = create_engine(f"mysql+mysqldb://{user()}:{pwd()}@{host{}}:3306/{db()}", pool_pre_ping=True)
+        self.__user = os.getenv("HBNB_MYSQL_USER")
+        self.__pwd = os.getenv("HBNB_MYSQL_PWD")
+        self.__host = os.getenv("HBNB_MYSQL_HOST")
+        self.__db = os.getenv("HBNB_MYSQL_DB")
+        self.__engine = create_engine(
+                "mysql+mysqldb://{}:{}@{}:3306/{}".format(
+                    self.__user, self.__pwd, self.__host, self.__db),
+                pool_pre_ping=True)
         if os.getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
 
@@ -48,12 +34,21 @@ class DBStorage():
         """Query the database for objects of a particular class
         Return all objects if nothing is passed
         """
+        from models.state import State
+        from models.city import City
+        from models.place import Place
+        from models.user import User
+        from models.review import Review
+        from models.amenity import Amenity
         if not cls:
-            objs = self.__session.query(State, City, Place, User, Amenity, Review).all()
+            objs = self.__session.query(State, City,
+                    Place, User, Amenity, Review).all()
         else:
             objs = self.__session.query(cls)
         final_dict = {}
-        [final_dict.update({f"{type(item).__name__}.{item.id}": item}) for item in objs]
+        [final_dict.update({
+            f"{type(item).__name__}.{item.id}": item
+            }) for item in objs]
         return final_dict
 
     def new(self, obj):
@@ -71,7 +66,13 @@ class DBStorage():
 
     def reload(self):
         """Create all tables and a session"""
-        Base.metadata.create.create_all(self.__engine)
-        sf = sessionmaker(bind=self.__engine, expire_on_commit=False())
+        from models.state import State
+        from models.city import City
+        from models.place import Place
+        from models.user import User
+        from models.review import Review
+        from models.amenity import Amenity
+        Base.metadata.create_all(self.__engine)
+        sf = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sf)
         self.__session = Session()

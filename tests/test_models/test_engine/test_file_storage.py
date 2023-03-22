@@ -3,10 +3,11 @@
 import unittest
 from models.base_model import BaseModel
 from models.state import State
-from models import storage
+from models import storage, storage_mode
 import os
 
 
+@unittest.skipIf(storage_mode(), "Test file storage only")
 class test_fileStorage(unittest.TestCase):
     """ Class to test the file storage method """
 
