@@ -4,6 +4,7 @@
 This module contain a function to clear a stream
 """
 
+
 def clear(stream):
     """Clear a stream"""
     stream.seek(0)

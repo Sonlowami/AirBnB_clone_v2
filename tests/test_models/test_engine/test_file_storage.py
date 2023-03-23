@@ -136,3 +136,18 @@ class test_fileStorage(unittest.TestCase):
         self.assertNotIn("State.{}".format(state.id), storage.all(BaseModel))
         self.assertIn("State.{}".format(state.id), storage.all(State))
         self.assertNotIn("BaseModel.{}".format(new.id), storage.all(State))
+
+    def test_delete_with_none(self):
+        """ """
+        new = State()
+        new.save()
+        storage.delete()
+        self.assertIn("State.{}".format(new.id), storage.all(State))
+
+
+    def test_delete_with_object(self):
+        """ """
+        new = State()
+        new.save()
+        storage.delete(new)
+        self.assertNotIn("State.{}".format(new.id), storage.all(State))

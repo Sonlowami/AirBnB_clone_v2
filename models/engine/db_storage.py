@@ -42,7 +42,7 @@ class DBStorage():
         from models.amenity import Amenity
         if not cls:
             objs = self.__session.query(State, City,
-                    Place, User, Amenity, Review).all()
+                                        Place, User, Amenity, Review).all()
         else:
             objs = self.__session.query(cls)
         final_dict = {}

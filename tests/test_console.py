@@ -41,10 +41,10 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as mock_out:
             cons = HBNBCommand()
             cons.onecmd("create City name=Cape_Town")
-            mocked_id = mock_out.getvalue().strip() # extract the printed id
+            mocked_id = mock_out.getvalue().strip()  # extract the printed id
             self.assertIn("City.{}".format(mocked_id), storage.all().keys())
             clear(mock_out)
-            
+
             cons.onecmd("show City {}".format(mocked_id))
             self.assertIn("'name': 'Cape Town'", mock_out.getvalue().strip())
             clear(mock_out)
@@ -54,7 +54,8 @@ class TestConsole(unittest.TestCase):
         """Test if the test feature works well with the database storage"""
         with patch('sys.stdout', new=StringIO()) as mock_out:
             cons = HBNBCommand()
-            cons.onecmd("create User email='abcd@gmail.com' password='abcdef' first_name='ab' last_name='cd'")
+            cons.onecmd("create User email='abcd@gmail.com'\
+                        password='abcdef' first_name='ab' last_name='cd'")
             mocked_id = mock_out.getvalue().strip()
             clear(mock_out)
             cur = self.db.cursor()
@@ -64,4 +65,3 @@ class TestConsole(unittest.TestCase):
             self.assertIn("abcd@gmail.com", result[0])
             self.assertIn("abcdef", result[1])
             cur.close()
-

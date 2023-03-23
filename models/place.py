@@ -29,24 +29,27 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer(), default=0, nullable=False)
     latitude = Column(Float())
     longitude = Column(Float())
+    amenity_ids = []
 
     if storage_mode():
         reviews = relationship('Review', backref='place',
-            cascade="all, delete")
+                               cascade="all, delete")
         amenities = relationship('Amenity', secondary=place_amenity,
-            viewonly=False, backref="place_amenities")
+                                 viewonly=False, backref="place_amenities")
     else:
         def reviews(self):
             """Return all reviews for this place object"""
             revs = []
-            [revs.append(item) for item in storage.all('Review') if item.place_id == self.id]
+            [revs.append(item) for item in storage.all('Review')
+                if item.place_id == self.id]
             return revs
 
         @property
         def amenities(self):
             """Return the list of amenities linked to this place"""
             am_list = []
-            [am_list.append(item) for item in Place.amenity_ids if item == self.id]
+            [am_list.append(item) for item in self.amenity_ids
+                if item == self.id]
             return am_list
 
         @amenities.setter
