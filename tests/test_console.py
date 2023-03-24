@@ -62,6 +62,6 @@ class TestConsole(unittest.TestCase):
             cur.execute("SELECT * FROM users WHERE id='{}'".format(mocked_id))
             result = cur.fetchone()
             self.assertTrue(result is not None)
-            self.assertIn("abcd@gmail.com", result[0])
-            self.assertIn("abcdef", result[1])
+            self.assertIn('cd', result)
+            self.assertIn('ab', result)
             cur.close()

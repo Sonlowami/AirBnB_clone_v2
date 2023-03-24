@@ -131,6 +131,8 @@ class HBNBCommand(cmd.Cmd):
         for item in args[1:]:
             try:
                 pars = item.split('=')
+                pars[1] = pars[1].replace('\"', '')
+                pars[1] = pars[1].replace('\'', '')
                 setattr(new_instance, pars[0], pars[1].replace('_', ' '))
             except Exception:
                 pass
