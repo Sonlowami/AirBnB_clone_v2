@@ -5,7 +5,7 @@
 def do_pack():
     """Pack all html directories into a tar.gz file"""
     from fabric.api import local
-    from  datetime import datetime
+    from datetime import datetime
     now = datetime.now()
     local('mkdir -p versions')
     pth = 'versions/web_static_{}{}{}{}{}{}'.format(now.year, now.month,
@@ -14,5 +14,3 @@ def do_pack():
     result = local('tar -czvf {}.tgz web_static/'.format(pth))
     if result.succeeded:
         return pth
-
-
