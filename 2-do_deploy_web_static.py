@@ -15,7 +15,7 @@ def do_deploy(archive_path):
     print(type(archive_path))
     if not put(local_path=archive_path, remote_path='/tmp/').succeeded:
         return False
-    """try:
+    try:
         sudo('tar -xvzf /tmp/web_static_*.tgz -C /data/web_static/releases/')
         sudo('rm /tmp/web_static_*.tgz /data/web_static/current')
         run(
@@ -23,7 +23,7 @@ def do_deploy(archive_path):
                     /data/web_static/current')
         return True
     except Exception:
-        return False"""
+        return False
 
 
 env.hosts = ['54.237.226.36']
