@@ -12,5 +12,5 @@ mkdir /data/web_static/shared
 printf "Welcome to my AirBnB\n" > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 chown --recursive ubuntu:ubuntu /data
-sed -i '^\tserver_name.*/a \n\\tlocation /hbnb_static {\n\talias /data/web_static/current/;\n\ttry_files $uri $uri/ =404;\n}' /etc/nginx/sites-enabled/default
+sed -i '/^\tserver_name.*/a \\n\tlocation /hbnb_static {\n\talias /data/web_static/current/;\n\ttry_files $uri $uri/ =404;\n}' /etc/nginx/sites-enabled/default
 service nginx restart
