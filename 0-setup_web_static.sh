@@ -2,9 +2,8 @@
 # This script sets the environment for deployment on my web servers
 #
 # Step 1: Install nginx if not present
-apt-get update
-apt-get upgrade -y
-apt install nginx
+apt update
+apt install nginx -y
 
 # Step 2: Set up required directories and files
 mkdir -p /data/web_static/releases/test
