@@ -12,7 +12,6 @@ def do_deploy(archive_path):
 
     if not isfile(archive_path):
         return False
-    print(type(archive_path))
     if not put(local_path=archive_path, remote_path='/tmp/').succeeded:
         return False
     try:
@@ -26,4 +25,4 @@ def do_deploy(archive_path):
         return False
 
 
-env.hosts = ['54.237.226.36']
+env.hosts = ['54.237.226.36', '54.87.205.95']
