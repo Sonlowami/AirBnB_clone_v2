@@ -18,8 +18,8 @@ def do_deploy(archive_path):
         dest_path = archive_path.split(".")[0]
         dest = dest_path.split("/")[-1]
         run('mkdir -p /data/web_static/releases/{}'.format(dest))
-        run('sudo tar -xvzf /tmp/web_static_*.tgz -C /data/web_static/releases/{}'
-            .format(dest))
+        run('sudo tar -xvzf /tmp/web_static_*.tgz -C\
+            /data/web_static/releases/{}'.format(dest))
         run('sudo rm /tmp/web_static_*.tgz /data/web_static/current')
         run('sudo ln -s /data/web_static/releases/{} /data/web_static/current'
             .format(dest))
