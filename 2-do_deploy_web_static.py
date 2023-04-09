@@ -15,11 +15,14 @@ def do_deploy(archive_path):
     if not put(archive_path, '/tmp/').succeeded:
         return False
     try:
-        run('sudo tar -xvzf /tmp/web_static_*.tgz -C /data/web_static/releases/')
+        dest_path = archive_path.split(".")[0]
+        dest = dest_path.split("/")[-1]
+        run('mkdir -p /data/web_static/releases/{}'.format(dest))
+        run('sudo tar -xvzf /tmp/web_static_*.tgz -C /data/web_static/releases/{}'
+            .format(dest))
         run('sudo rm /tmp/web_static_*.tgz /data/web_static/current')
-        run(
-            'sudo ln -s $(ls -t /data/web_static/releases|head -n 1)\
-                    /data/web_static/current')
+        run('sudo ln -s /data/web_static/releases/{} /data/web_static/current'
+            .format(dest))
         return True
     except Exception:
         return False
