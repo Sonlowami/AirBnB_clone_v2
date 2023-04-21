@@ -26,7 +26,7 @@ def hbnb():
 def print_c(text):
     """Return the parameter passed in a text"""
     new_text = text.replace('_', ' ')
-    return f"C {escape(new_text)}\n"
+    return "C {}".format(escape(new_text))
 
 
 @app.route('/python/', strict_slashes=False)
@@ -34,7 +34,7 @@ def print_c(text):
 def print_python(text='is cool'):
     """Prints passed text, is cool if not passed"""
     new_text = text.replace('_', ' ')
-    return f"Python {escape(new_text)}\n"
+    return "Python {}".format(escape(new_text))
 
 
 if __name__ == '__main__':
