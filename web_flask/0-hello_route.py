@@ -12,7 +12,7 @@ def index():
     """
     Return a simple HBNB message
     """
-    return "Hello HBNB!\n"
+    return "Hello HBNB!"
 
 
 if __name__ == '__main__':
