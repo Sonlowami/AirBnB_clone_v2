@@ -3,7 +3,6 @@
 This module contain a WSGI flask application
 """
 from flask import Flask
-from markupsafe import escape
 
 app = Flask('web_flask')
 
@@ -13,20 +12,20 @@ def index():
     """
     Return a simple hello HBNB message
     """
-    return "Hello HBNB!\n"
+    return "Hello HBNB!"
 
 
 @app.route('/hbnb', strict_slashes=False)
 def hbnb():
     """Return a simple HBNB message"""
-    return "HBNB\n"
+    return "HBNB"
 
 
 @app.route('/c/<text>', strict_slashes=False)
 def print_param(text):
     """Return the parameter passed in a text"""
     new_text = text.replace('_', ' ')
-    return f"C {escape(new_text)}\n"
+    return f"C {new_text}\n"
 
 
 if __name__ == '__main__':

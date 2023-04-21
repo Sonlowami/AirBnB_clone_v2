@@ -12,13 +12,13 @@ def index():
     """
     Return a simple hello HBNB message
     """
-    return "Hello HBNB!\n"
+    return "Hello HBNB!"
 
 
 @app.route('/hbnb', strict_slashes=False)
 def hbnb():
     """Return a simple HBNB message"""
-    return "HBNB\n"
+    return "HBNB"
 
 
 if __name__ == '__main__':
