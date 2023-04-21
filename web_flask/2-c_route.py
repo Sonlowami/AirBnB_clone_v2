@@ -25,7 +25,7 @@ def hbnb():
 def print_param(text):
     """Return the parameter passed in a text"""
     new_text = text.replace('_', ' ')
-    return f"C {new_text}\n"
+    return "C {}".format(new_text)
 
 
 if __name__ == '__main__':
