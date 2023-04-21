@@ -29,4 +29,5 @@ def print_param(text):
     return f"C {escape(new_text)}\n"
 
 
-app.run(host="0.0.0.0", port=5000)
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5000)

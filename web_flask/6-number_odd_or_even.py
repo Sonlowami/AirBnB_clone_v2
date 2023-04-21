@@ -43,7 +43,7 @@ def print_number(n):
     try:
         if isinstance(int(n), int):
             return f"{n} is a nummber\n"
-    except:
+    except Exception:
         abort(404)
 
 
@@ -53,7 +53,7 @@ def number_template(n):
     try:
         if isinstance(int(n), int):
             return render_template('5-number.html', number=n)
-    except:
+    except Exception:
         abort(404)
 
 
@@ -61,4 +61,7 @@ def number_template(n):
 def odd_or_even(n):
     """Display an html showing a number and it's odd or even status"""
     return render_template('6-number_odd_or_even.html', number=n)
-app.run(host="0.0.0.0", port=5000)
+
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5000)
