@@ -18,9 +18,10 @@ class State(BaseModel, Base):
     else:
         name = ""
 
-        def get_cities(self):
+        @property
+        def cities(self):
             """Return all cities with state_id equal to this object's id"""
             cities = []
-            [cities.append(item) for item in storage.all(City)
-                if item.state_id == self.id]
+            [cities.append(v) for k, v in storage.all(City).items()
+                if v.state_id == self.id]
             return cities
