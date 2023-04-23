@@ -24,9 +24,11 @@ class BaseModel:
         else:
             try:
                 kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
+                                                         '%Y-%m-%dT%H:%M:%S.%f'
+                                                         )
                 kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
+                                                         '%Y-%m-%dT%H:%M:%S.%f'
+                                                         )
             except KeyError:
                 kwargs['updated_at'] = kwargs['created_at'] = datetime.now()
                 kwargs['id'] = str(uuid.uuid4())
@@ -55,7 +57,7 @@ class BaseModel:
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
         if '_sa_instance_state' in dictionary.keys():
-            del(dictionary['_sa_instance_state'])
+            del dictionary['_sa_instance_state']
         return dictionary
 
     def delete(self):
