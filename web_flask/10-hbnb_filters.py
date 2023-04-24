@@ -8,7 +8,7 @@ from models import storage
 from models.state import State
 from models.amenity import Amenity
 
-app = Flask('web_flask')
+app = Flask('web_flask', static_url_path='')
 
 
 @app.teardown_appcontext
